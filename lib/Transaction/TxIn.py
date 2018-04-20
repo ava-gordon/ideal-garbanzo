@@ -13,7 +13,7 @@ class TxIn:
         self.prev_output = prev_output
         self.script_length = script_length
         self.script_sig = script_sig
-        self.sequence = TxIn.SEQUENCE_LOCKED
+        self.sequence = TxIn.SEQUENCE_LOCKED  # For now, let's not bother time-locking transactions
 
     def to_hex(self):
         pass
