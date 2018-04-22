@@ -1,6 +1,7 @@
 import codecs
 from ..utils.VarInt import VarInt
 
+
 class Transaction:
 
     VERSION = '01000000'
@@ -23,13 +24,12 @@ class Transaction:
     def to_hex(self):
         tx_in_string = ''.join([tx_in.to_hex() for tx_in in self.tx_in_list])
         tx_out_string = ''.join([tx_out.to_hex() for tx_out in self.tx_out_list])
-
         return (
             self.version +
             self.tx_in_count.to_hex() +
             tx_in_string +
             self.tx_out_count.to_hex() +
             tx_out_string +
-            Transaction.LOCK_TIME
+            Transaction.LOCK_TIME  # for the moment, no block locking - ignore inputted lock time
         )
 

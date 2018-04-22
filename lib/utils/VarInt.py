@@ -1,5 +1,4 @@
 import struct
-from .HexEncode import hex_encode
 
 
 class VarInt:
@@ -13,7 +12,7 @@ class VarInt:
 
     def to_hex(self):
         if self.value <= 0xfc:
-            return hex_encode(bytes([self.value]))
+            return self.value.to_bytes(1, byteorder="big").hex()
 
         # If larger than 1 byte, we need to swap endianness and prefix
         elif self.value <= 0xffff:

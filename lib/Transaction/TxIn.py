@@ -1,4 +1,4 @@
-
+from .OutPoint import OutPoint
 
 # This is the input for a new transaction. The script_sig contains the signature of the previous UTXO that is being
 # spent here.
@@ -16,4 +16,20 @@ class TxIn:
         self.sequence = TxIn.SEQUENCE_LOCKED  # For now, let's not bother time-locking transactions
 
     def to_hex(self):
-        pass
+        return "{}{}{}{}".format(self.prev_output.to_hex(), self.script_length, self.script_sig,
+                                 self.sequence.to_bytes(4, byteorder="big").hex())
+
+
+    @classmethod
+    def generate_txins(cls, hashes):
+        txins = []
+        for i in range(len(hashes)):
+            hash = hashes[i]
+            txin = cls.generate_txin(hash, i)
+            txins.append(txin)
+        return txins
+
+    @classmethod
+    def generate_txin(cls, hash, index):
+        outpoint = OutPoint(hash, index)
+        return cls(outpoint, "", "")  # come back to this
