@@ -33,3 +33,5 @@ class Transaction:
             Transaction.LOCK_TIME  # for the moment, no block locking - ignore inputted lock time
         )
 
+    def sign(self):
+        pass

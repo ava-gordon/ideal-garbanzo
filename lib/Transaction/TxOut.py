@@ -11,7 +11,7 @@ class TxOut:
         """
         self.value = value.to_bytes(8, byteorder="little")
         self.script_length = script_length
-        self.script_pub_key = script_pub_key
+        self.script_pub_key = script_pub_key  # locks this output until a future txin unlocks it
 
     def to_hex(self):
         return "{}{}{}".format(self.value.hex(), "", "")  # leave script length and pub key blank until we handle signing transactions

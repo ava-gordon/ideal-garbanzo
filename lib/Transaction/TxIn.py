@@ -12,7 +12,7 @@ class TxIn:
     def __init__(self, prev_output, script_length, script_sig):
         self.prev_output = prev_output
         self.script_length = script_length
-        self.script_sig = script_sig
+        self.script_sig = script_sig  # Unlocks a previous output
         self.sequence = TxIn.SEQUENCE_LOCKED  # For now, let's not bother time-locking transactions
 
     def to_hex(self):
