@@ -3,10 +3,15 @@ from lib.Transaction.TxOut import TxOut
 from lib.Transaction.TxIn import TxIn
 from lib.Transaction.transaction import Transaction
 
+# todo: make amount to send configurable
+# todo: CLI - need to be able to see balance, create transactions
+# todo: standardize which variable types are passed around (strings vs. hex)
+
 
 def gen_address():
     address = AddressGenerator()
     print(address.pub)
+
 
 # need some way of storing tx info
 def transaction():
@@ -18,15 +23,15 @@ def transaction():
 
 # A couple of helper functions for early testing - will remove these hardcoded values
 def make_txin():
+    address = AddressGenerator()
     utxo_hash = "79fa40d08954eca683689b0fdcbdd7b1b5c2678f42ebc38309dd282334067f86"
-    return TxIn.generate_txin(utxo_hash, 0)
+    return TxIn.generate_unsigned_txin(utxo_hash, 0, address.addr)
 
 
 def make_txout():
     value = 1.8 * 10**8  # currently generated address has one utxo
     value = int(value)
     return TxOut(value, 0, "")
-
 
 
 def main():
