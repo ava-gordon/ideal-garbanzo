@@ -1,11 +1,16 @@
+import ecdsa
+import base58
+import codecs
+import Crypto.Random as rand
+from Crypto.Hash import SHA256, RIPEMD160
 from ..utils.VarInt import VarInt
-
 
 class Transaction:
 
     VERSION = '01000000'
     FLAG = '0001'
     LOCK_TIME = '00000000'
+    HASH_CODE = '01000000'
 
     def __init__(self, tx_in_list, tx_out_list, lock_time=0):
         self.version = Transaction.VERSION
@@ -31,3 +36,8 @@ class Transaction:
             tx_out_string +
             Transaction.LOCK_TIME  # for the moment, no block locking - ignore inputted lock time
         )
+
+    def sign(self):
+        hex_str = self.to_hex() + self.HASH_CODE
+
+
