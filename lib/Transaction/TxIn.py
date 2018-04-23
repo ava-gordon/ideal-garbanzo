@@ -14,11 +14,11 @@ class TxIn:
         """
         
         :param prev_output: an OutPoint object
-        :param script_sig: a bitcoin script in hex format
+        :param script_sig: a bitcoin script in hex string format
         """
         self.prev_output = prev_output
-        self.script_length = VarInt(int(len(script_sig)/2))
         self.script_sig = script_sig  # Unlocks a previous output
+        self.script_length = VarInt(int(len(self.script_sig) / 2))
         self.sequence = TxIn.SEQUENCE_LOCKED  # For now, let's not bother time-locking transactions
 
     def to_hex(self):
@@ -26,8 +26,12 @@ class TxIn:
                                  self.sequence)
 
     def human_readable(self):
-        return "previous output: {}\nscript length: {}\nscript: {}\nsequence: {}"\
+        return "previous output: {} \n script length: {} \n script: {} \n sequence: {}"\
             .format(self.prev_output.to_hex(), self.script_length.to_hex(), self.script_sig, self.sequence)
+
+    def set_script_sig(self, script_sig):
+        self.script_sig = script_sig
+        self.script_length = VarInt(int(len(self.script_sig) / 2))
 
     @classmethod
     def generate_u_txins(cls, hashes, address):
@@ -52,12 +56,15 @@ class TxIn:
         
         3. Replace the scriptSig in the TxIns with the correct signature information
         
-        :param hash: 
-        :param index: 
-        :param address: 
+        :param hash: The hash of the utxo being used as an input
+        :param index: The index of the txin in this transaction's list of txins as an integer
+        :param address: The address of the sender of the current transaction 
         :return: 
         """
         outpoint = OutPoint(hash, index)
+
+        # here we are assuming that all the utxo's being used as inputs are standard transactions
+        # addressed to the sender
         script_sig = default_script_pub_key(address)
 
         return cls(outpoint, script_sig)

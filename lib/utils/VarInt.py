@@ -1,6 +1,3 @@
-import struct
-
-
 class VarInt:
 
     def __init__(self, value=0):

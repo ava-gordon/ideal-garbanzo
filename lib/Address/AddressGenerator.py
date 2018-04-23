@@ -1,8 +1,8 @@
-import ecdsa
 import base58
 import codecs
 import Crypto.Random as rand
 from Crypto.Hash import SHA256, RIPEMD160
+from ..utils.Keys import public_key_from_private_key
 
 """
 As with everything in Bitcoin, the technicals of generating a bitcoin address are quite complicated. 
@@ -44,9 +44,8 @@ class AddressGenerator:
 
     def _generate_public_key(self, private_key):
         pk_string = codecs.decode(private_key, 'hex_codec')
-        sk = ecdsa.SigningKey.from_string(pk_string, curve=ecdsa.SECP256k1)
-        vk = sk.get_verifying_key()
-        return codecs.encode(b'\x04', 'hex_codec') + codecs.encode(vk.to_string(), 'hex_codec')
+        vk = public_key_from_private_key(pk_string)
+        return codecs.encode(b'\x04', 'hex_codec') + vk
 
     def _generate_address_from_public_key(self, public_key):
         hash = RIPEMD160.new(SHA256.new(codecs.decode(public_key, 'hex_codec')).digest()).digest()
