@@ -34,6 +34,8 @@ class AddressGenerator:
         return codecs.encode(bits, 'hex_codec')
 
     def _generate_private_key_from_secret(self, secret):
+        # We need a 256-bit private key, so we can either generate one randomly, or hash some provided secret,
+        # as we're doing here
         bits = SHA256.new(secret).digest()
         return codecs.encode(bits, 'hex_codec')
 

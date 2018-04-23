@@ -12,7 +12,7 @@ class TxOut:
         """
         self.value = value.to_bytes(8, byteorder="little")
         self.script_pub_key = default_script_pub_key(address)
-        self.script_length = VarInt(len(self.script_pub_key)/2)
+        self.script_length = VarInt(int(len(self.script_pub_key)/2))
 
     def to_hex(self):
         return "{}{}{}".format(self.value.hex(), self.script_length.to_hex(), self.script_pub_key)  # leave script length and pub key blank until we handle signing transactions

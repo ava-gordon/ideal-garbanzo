@@ -10,8 +10,10 @@ OP_CHECKSIG    = "ac"
 
 def default_script_pub_key(address):
     # convert the address to hex, leaving off the checksum and version flag
-    address = base58.b58decode_check(address)[2:]
-    address_length = VarInt(len(address)/2)
+    address = base58.b58decode_check(address)[2:].hex()
+
+    # since it's 2 bytes per hex char, the length of the address should always be even
+    address_length = VarInt(int(len(address)/2))
     return "{}{}{}{}{}{}".format(OP_DUP,
                                  OP_HASH160,
                                  address_length.to_hex(),

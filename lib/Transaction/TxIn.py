@@ -10,16 +10,24 @@ class TxIn:
     SEQUENCE_LOCKED = "ffffffff"
 
     # prev_output must be an OutPoint object
-    def __init__(self, prev_output, script_length, script_sig):
+    def __init__(self, prev_output, script_sig):
+        """
+        
+        :param prev_output: an OutPoint object
+        :param script_sig: a bitcoin script in hex format
+        """
         self.prev_output = prev_output
-        self.script_length = script_length
+        self.script_length = VarInt(int(len(script_sig)/2))
         self.script_sig = script_sig  # Unlocks a previous output
         self.sequence = TxIn.SEQUENCE_LOCKED  # For now, let's not bother time-locking transactions
 
     def to_hex(self):
-        return "{}{}{}{}".format(self.prev_output.to_hex(), self.script_length, self.script_sig,
+        return "{}{}{}{}".format(self.prev_output.to_hex(), self.script_length.to_hex(), self.script_sig,
                                  self.sequence)
 
+    def human_readable(self):
+        return "previous output: {}\nscript length: {}\nscript: {}\nsequence: {}"\
+            .format(self.prev_output.to_hex(), self.script_length.to_hex(), self.script_sig, self.sequence)
 
     @classmethod
     def generate_u_txins(cls, hashes, address):
@@ -51,6 +59,5 @@ class TxIn:
         """
         outpoint = OutPoint(hash, index)
         script_sig = default_script_pub_key(address)
-        script_length = VarInt(len(script_sig)/2)  # each byte contains two hex chars
 
-        return cls(outpoint, script_length, script_sig)
+        return cls(outpoint, script_sig)

@@ -1,11 +1,15 @@
 from lib.Address.AddressGenerator import AddressGenerator
 from lib.Transaction.TxOut import TxOut
 from lib.Transaction.TxIn import TxIn
-from lib.Transaction.transaction import Transaction
+from lib.Transaction.Transaction import Transaction
 
 # todo: make amount to send configurable
+# todo: auto-generate "change" output to send remaining balance back to sender
 # todo: CLI - need to be able to see balance, create transactions
+# todo: storing user info - private keys, balances, etc.
+# todo: verifying balances with blockchain.info or some other provider (don't want to DL the whole chain)
 # todo: standardize which variable types are passed around (strings vs. hex)
+# todo: unit tests
 
 
 def gen_address():
@@ -29,9 +33,11 @@ def make_txin():
 
 
 def make_txout():
-    value = 1.8 * 10**8  # currently generated address has one utxo
+    # let's default to sending our test btc's back to the testnet faucet where we got them in the first place.
+    testnet_faucet_address = "2N8hwP1WmJrFF5QWABn38y63uYLhnJYJYTF"
+    value = 1.8 * 10**8  # currently generated address has one utxo with this amount
     value = int(value)
-    return TxOut(value, 0, "")
+    return TxOut(value, testnet_faucet_address)
 
 
 def main():
