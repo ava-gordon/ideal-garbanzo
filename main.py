@@ -3,13 +3,15 @@ from lib.Transaction.TxOut import TxOut
 from lib.Transaction.TxIn import TxIn
 from lib.Transaction.Transaction import Transaction
 
-# todo: make amount to send configurable
-# todo: auto-generate "change" output to send remaining balance back to sender
-# todo: CLI - need to be able to see balance, create transactions
-# todo: storing user info - private keys, balances, etc.
-# todo: verifying balances with blockchain.info or some other provider (don't want to DL the whole chain)
-# todo: standardize which variable types are passed around (strings vs. hex)
-# todo: unit tests
+# todo 1: send transaction to network
+# todo 2: make amount to send configurable
+# todo 3: auto-generate "change" output to send remaining balance back to sender
+# todo 4: CLI - need to be able to see balance, create transactions
+# todo 5: storing user info - private keys, balances, etc.
+# todo 6: verifying balances with blockchain.info or some other provider (don't want to DL the whole chain)
+# todo 7: standardize which variable types are passed around (strings vs. hex)
+#  Current thinking here: Always pass everything as hex strings, convert to bytes only as necessary
+# todo 8: unit tests
 
 
 def gen_address():
