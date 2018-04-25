@@ -54,7 +54,7 @@ class Transaction:
 
         tx_hex = self.to_hex() + self.HASH_CODE
         tx_bytes = bytes.fromhex(tx_hex)
-        hash_obj = SHA256.new(SHA256.new(tx_bytes).digest()).digest()  # SHA256 that biiiih twice
+        hash_obj = SHA256.new(SHA256.new(tx_bytes).digest()).digest()  # SHA256 the tx twice
 
         # sign the transaction with the user's private key, output is in DER encoding
         private_key = codecs.decode(private_key, 'hex_codec')  # We have to decode from hex before signing

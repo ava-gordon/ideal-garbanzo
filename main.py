@@ -29,8 +29,12 @@ def transaction():
 
     return Transaction([txin], [txout])
 
-def find_peer():
+
+def send_tx():
     nw_handler = NetworkHandler()
+    tx = transaction()
+    nw_handler.send_tx(tx)
+
 
 # A couple of helper functions for early testing - will remove these hardcoded values
 def make_txin():

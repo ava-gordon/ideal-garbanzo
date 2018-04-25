@@ -28,14 +28,19 @@ class NetworkHandler:
         # ip = self.ip_list[0]
         # print(ip)
 
-        ip = "185.28.76.179"  # just use this peer for now - address of testnet faucet
+        self.ip = "185.28.76.179"  # just use this peer for now - address of testnet faucet
 
-        version = Version(ip, self.addr_from)
+        version = Version(self.ip, self.addr_from)
         print(version.to_hex())
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((ip, NetworkHandler.BTC_PORT_TEST))
-        sock.send(Message('version', version.to_hex()).to_bytes())
-        peer_version = sock.recv(1000)
-        peer_verack = sock.recv(1000)
+
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.connect((self.ip, NetworkHandler.BTC_PORT_TEST))
+            sock.send(Message('version', version.to_hex()).to_bytes())
+            peer_version = sock.recv(1000)
 
         print(peer_version.hex())
+
+    def send_tx(self, tx):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.connect((self.ip, NetworkHandler.BTC_PORT_TEST))
+            sock.send(Message('tx', tx.to_hex()).to_bytes())

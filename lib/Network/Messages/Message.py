@@ -19,4 +19,6 @@ class Message:
         self.checksum = SHA256.new(SHA256.new(self.payload).digest()).digest()[0:4]
 
     def to_bytes(self):
+        # Using struct.pack here instead of just formatting an empty string because we want a specific length ascii
+        # string - not sure if this is possible with str.format
         return struct.pack('4s12sL4s', self.magic, self.command, self.length, self.checksum) + self.payload
