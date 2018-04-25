@@ -1,6 +1,7 @@
 import random
 import time
 from lib.utils.IPToHex import ipv4_to_hex
+from lib.utils.VarStr import VarStr
 
 
 class Version:
@@ -12,21 +13,26 @@ class Version:
                  addr_from,
                  version=60002,
                  services=1,
-                 start_height=0):
+                 start_height=0,
+                 port=8333):
         self.version = version
         self.services = services
         self.timestamp = int(time.time())
-        self.addr_recv = addr_recv
-        self.addr_from = addr_from
-        self.nonce = random.getrandbits(64)
-        self.user_agent = ''
-        self.start_height = start_height
+        self.addr_recv = NetworkAddress(self.services, addr_recv, port)
+        self.addr_from = NetworkAddress(self.services, addr_from, port)
+        self.nonce = random.getrandbits(64).to_bytes(8, byteorder="big").hex()
+        self.user_agent = VarStr('')
+        self.start_height = start_height.to_bytes(4, byteorder="little").hex()
 
     def to_hex(self):
         return "{}{}{}{}{}{}{}{}".format(self.version.to_bytes(4, byteorder="little").hex(),
                                          self.services.to_bytes(8, byteorder="little").hex(),
                                          self.timestamp.to_bytes(8, byteorder="little").hex(),
-                                         self.addr_recv)
+                                         self.addr_recv.to_hex(),
+                                         self.addr_from.to_hex(),
+                                         self.nonce,
+                                         self.user_agent.to_hex(),
+                                         self.start_height)
 
 
 # todo: Move NetworkAddress into "Structures" subfolder if/when I create that
@@ -57,11 +63,11 @@ class NetworkAddress:
     def to_hex(self):
         if self.time:
             # todo: check that this is the right byteorder for time
-            return "{}{}{}{}".format(self.time.to_bytes(4, byteorder="little"),
-                                     self.services.to_bytes(8, byteorder="little"),
+            return "{}{}{}{}".format(self.time.to_bytes(4, byteorder="little").hex(),
+                                     self.services.to_bytes(8, byteorder="little").hex(),
                                      self.ip,
-                                     self.port.to_bytes(2, byteorder="big"))
+                                     self.port.to_bytes(2, byteorder="big").hex())
         else:
-            return "{}{}{}".format(self.services.to_bytes(8, byteorder="little"),
+            return "{}{}{}".format(self.services.to_bytes(8, byteorder="little").hex(),
                                    self.ip,
-                                   self.port.to_bytes(2, byteorder="big"))
+                                   self.port.to_bytes(2, byteorder="big").hex())

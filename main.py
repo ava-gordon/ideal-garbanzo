@@ -2,6 +2,7 @@ from lib.Address.AddressGenerator import AddressGenerator
 from lib.Transaction.TxOut import TxOut
 from lib.Transaction.TxIn import TxIn
 from lib.Transaction.Transaction import Transaction
+from lib.Network.NetworkHandler import NetworkHandler
 
 # todo 1: send transaction to network
 # todo 2: make amount to send configurable
@@ -12,6 +13,8 @@ from lib.Transaction.Transaction import Transaction
 # todo 7: standardize which variable types are passed around (strings vs. hex)
 #  Current thinking here: Always pass everything as hex strings, convert to bytes only as necessary
 # todo 8: unit tests
+# todo: Move to virtualenv
+# todo: Install LOC counter
 
 
 def gen_address():
@@ -26,6 +29,8 @@ def transaction():
 
     return Transaction([txin], [txout])
 
+def find_peer():
+    nw_handler = NetworkHandler()
 
 # A couple of helper functions for early testing - will remove these hardcoded values
 def make_txin():
