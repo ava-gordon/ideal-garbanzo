@@ -1,5 +1,6 @@
 import socket
-
+from lib.Network.Messages.Version import Version
+from lib.Network.Messages.Verack import Verack
 
 class NetworkHandler:
     """
@@ -16,5 +17,8 @@ class NetworkHandler:
         self.primary_peer = ''
         print("Finding peers...")
 
-        while not self.primary_peer:
-            pass
+        for ip in self.ip_list:
+            vers = Version(ip, )
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.connect((ip, NetworkHandler.BTC_PORT))
+            sock.send()

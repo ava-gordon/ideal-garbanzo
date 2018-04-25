@@ -1,9 +1,12 @@
 import random
 import time
-from lib.utils.IPToHex import ipv4ToHex
+from lib.utils.IPToHex import ipv4_to_hex
 
 
 class Version:
+    """
+    https://en.bitcoin.it/wiki/Protocol_documentation#version
+    """
     def __init__(self,
                  addr_recv,
                  addr_from,
@@ -29,6 +32,7 @@ class Version:
 # todo: Move NetworkAddress into "Structures" subfolder if/when I create that
 class NetworkAddress:
     """
+    https://en.bitcoin.it/wiki/Protocol_documentation#Network_address
     Utility class to generate the hex representation of a network address data structure.
     """
     IPV4_MAP = '00000000000000000000FFFF'
@@ -47,7 +51,7 @@ class NetworkAddress:
         self.time = time
         self.services = services
         if ip_version == 4:
-            self.ip = NetworkAddress.IPV4_MAP + ipv4ToHex(ip)
+            self.ip = NetworkAddress.IPV4_MAP + ipv4_to_hex(ip)
         self.port = port
 
     def to_hex(self):

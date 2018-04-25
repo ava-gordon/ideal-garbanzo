@@ -1,5 +1,7 @@
 class VarInt:
-
+    """
+    https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer
+    """
     def __init__(self, value=0):
         self.value = None
         self.set_value(value)
@@ -8,6 +10,7 @@ class VarInt:
         self.value = value
 
     def to_hex(self):
+        # Values < 252 are big endian; anything larger is little endian. No, I don't know why. Ask Satoshi.
         if self.value <= 0xfc:
             return self.value.to_bytes(1, byteorder="big").hex()
 

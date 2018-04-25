@@ -6,7 +6,11 @@ from Crypto.Hash import SHA256, RIPEMD160
 from ..utils.VarInt import VarInt
 from ..utils.Keys import public_key_from_private_key
 
+
 class Transaction:
+    """
+    https://en.bitcoin.it/wiki/Protocol_documentation#tx
+    """
 
     VERSION = '01000000'
     FLAG = '0001'
